@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  date       String
+  category   String
+  coverImage String   @db.Text
+  content    String   @db.Text
+  createdAt  DateTime @default(now())
+}
+
+model AboutData {
+  id         String   @id @default("singleton")
+  photo      String   @db.Text
+  paragraphs String[]
+}

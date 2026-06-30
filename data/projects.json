@@ -1,0 +1,32 @@
+[
+  {
+    "id": "1",
+    "title": "Residência Vila Madalena",
+    "slug": "residencia-vila-madalena",
+    "date": "2025-03-15",
+    "category": "Arquitetura",
+    "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    "content": "<h2>O Projeto</h2><p>Uma residência contemporânea localizada no coração de Vila Madalena, Recife. O projeto nasceu da necessidade de criar um espaço que dialogasse com a efervescência cultural do bairro, mantendo a privacidade e o conforto dos moradores.</p><img src='https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80' alt='Fachada principal' /><h3>Conceito</h3><p>A volumetria foi pensada em dois blocos principais: um social, aberto e permeável, e outro íntimo, mais reservado. A conexão entre eles se dá por um jardim interno que funciona como pulmão verde da casa.</p><p>O uso de concreto aparente, madeira e vidro cria uma paleta de materiais que envelhece bem e se integra ao entorno. A cobertura verde contribui para o conforto térmico e reduz o impacto ambiental da construção.</p><img src='https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80' alt='Interior sala' /><h3>Ficha Técnica</h3><p>Área total: 380m² | Terreno: 450m² | Ano: 2025 | Local: Recife, SP</p>",
+    "createdAt": "2025-03-15T10:00:00Z"
+  },
+  {
+    "id": "2",
+    "title": "Requalificação Praça Central",
+    "slug": "requalificacao-praca-central",
+    "date": "2024-11-20",
+    "category": "Urbanismo",
+    "coverImage": "https://images.unsplash.com/photo-1494526585095-c41746248156?w=800&q=80",
+    "content": "<h2>Requalificação Urbana</h2><p>Projeto de requalificação da Praça Central de Campinas, transformando um espaço degradado em um polo de convivência urbana. O projeto considerou as demandas da população local através de oficinas participativas.</p><img src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&q=80' alt='Vista aérea do projeto' /><h3>Estratégias</h3><p>Foram implementadas estratégias de drenagem sustentável, arborização com espécies nativas e mobiliário urbano acessível. O projeto priorizou a caminhabilidade e criou rotas seguras para pedestres e ciclistas.</p><p>A iluminação foi pensada para garantir segurança sem poluição luminosa excessiva, utilizando LEDs de baixo consumo com sensores de presença nas áreas menos movimentadas.</p><h3>Ficha Técnica</h3><p>Área de intervenção: 12.000m² | Ano: 2024 | Local: Campinas, SP</p>",
+    "createdAt": "2024-11-20T10:00:00Z"
+  },
+  {
+    "id": "3",
+    "title": "Apartamento Jardins",
+    "slug": "apartamento-jardins",
+    "date": "2025-01-10",
+    "category": "Interiores",
+    "coverImage": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80",
+    "content": "<h2>Design de Interiores</h2><p>Reforma completa de um apartamento de 120m² no bairro dos Jardins. O projeto buscou criar ambientes fluidos e integrados, com uma paleta neutra pontuada por peças de design brasileiro.</p><img src='https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80' alt='Sala de estar' /><h3>Materialidade</h3><p>O piso em madeira de demolição traz calor ao ambiente, enquanto o mármore branco nos banheiros e cozinha confere sofisticação. As marcenarias foram desenhadas sob medida, maximizando cada centímetro do apartamento.</p><p>A iluminação é toda em LED, com cenas programáveis que se adaptam a diferentes momentos do dia. Cortinas automatizadas complementam o controle de luz natural.</p><img src='https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80' alt='Cozinha integrada' /><h3>Ficha Técnica</h3><p>Área: 120m² | Ano: 2025 | Local: Recife, SP</p>",
+    "createdAt": "2025-01-10T10:00:00Z"
+  }
+]
