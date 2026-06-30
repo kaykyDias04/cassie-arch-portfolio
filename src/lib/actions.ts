@@ -6,8 +6,8 @@ import { revalidatePath } from 'next/cache';
 import { addProject, updateProject, deleteProject, updateAboutData } from './data';
 import { AboutData } from './types';
 
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'password123';
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || 'password123';
 const SESSION_COOKIE = 'admin-session';
 const SESSION_VALUE = 'authenticated';
 
