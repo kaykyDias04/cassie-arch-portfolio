@@ -18,18 +18,18 @@ export default async function HomePage() {
       <Header />
 
       <main className="flex-1 pt-20">
-        <section className="relative min-h-[85vh] flex items-center">
-          <div className="max-w-7xl mx-auto px-6 py-24 w-full">
+        <section className="relative min-h-[55vh] flex items-center">
+          <div className="max-w-7xl mx-auto px-6 py-14 w-full">
             <div className="max-w-3xl">
               <p className="text-text-grey text-sm tracking-[0.2em] uppercase mb-6 animate-fade-in-up">
                 Estudante de Arquitetura e Urbanismo
               </p>
               <h1 className="animate-fade-in-up-delay-1 mb-6">
-                Transformamos espaços em{' '}
+                Transformo espaços em{' '}
                 <span className="text-luminex-red">experiências</span>
               </h1>
-              <p className="text-text-grey text-lg leading-relaxed max-w-xl mb-10 animate-fade-in-up-delay-2">
-                Criamos projetos de arquitetura, urbanismo e interiores com design
+              <p className="text-[#555555] text-lg leading-relaxed max-w-xl mb-10 animate-fade-in-up-delay-2">
+                Crio projetos de arquitetura, urbanismo e interiores com design
                 contemporâneo, funcionalidade e sensibilidade ao contexto.
               </p>
               <div className="flex flex-wrap gap-4 animate-fade-in-up-delay-3">
@@ -42,7 +42,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/contato"
-                  className="inline-flex items-center gap-2 border border-title-black text-title-black px-8 py-3.5 rounded-full text-sm tracking-[0.1em] uppercase font-medium hover:bg-title-black hover:text-white transition-colors duration-300"
+                  className="inline-flex items-center gap-2 border border-title-black text-title-black px-8 py-3.5 rounded-full text-sm tracking-[0.1em] uppercase font-medium hover:bg-luminex-red hover:text-white transition-colors duration-300"
                 >
                   Fale Conosco
                 </Link>
@@ -50,7 +50,6 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-[70%] bg-surface rounded-l-3xl hidden lg:block" />
         </section>
 
         <section className="py-24 bg-white">

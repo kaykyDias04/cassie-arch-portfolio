@@ -19,11 +19,8 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-border-light">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 shrink-0">
-          <div className="w-10 h-10 border-2 border-title-black flex items-center justify-center rounded-sm">
-            <span className="text-title-black font-semibold text-lg">C</span>
-          </div>
-          <div className="hidden sm:flex flex-col leading-tight">
+        <Link href="/" className="flex items-center shrink-0">
+          <div className="flex flex-col leading-tight">
             <span className="text-title-black font-semibold text-[15px] tracking-wide uppercase">
               Cássia
             </span>

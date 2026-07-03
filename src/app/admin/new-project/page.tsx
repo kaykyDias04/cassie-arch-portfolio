@@ -53,15 +53,23 @@ export default function NewProjectPage() {
       <AdminHeader />
 
       <div className="bg-white border-b border-border-light">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-6 py-8">
           <Link
             href="/admin/dashboard"
-            className="inline-flex items-center gap-2 text-text-grey text-sm hover:text-title-black transition-colors"
+            className="inline-flex items-center gap-1.5 text-text-grey text-xs hover:text-luminex-red transition-colors mb-5"
           >
-            <ArrowLeft size={16} />
+            <ArrowLeft size={13} />
             Voltar ao dashboard
           </Link>
-          <h1 className="text-title-black font-semibold text-base">Novo Projeto</h1>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="inline-block w-1 h-5 rounded-full bg-luminex-red" />
+                <h1 className="text-title-black font-semibold text-2xl tracking-tight">Novo Projeto</h1>
+              </div>
+              <p className="text-text-grey text-sm ml-3">Preencha os campos abaixo para publicar um novo projeto no portfólio.</p>
+            </div>
+          </div>
         </div>
       </div>
 

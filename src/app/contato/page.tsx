@@ -5,7 +5,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contato | Cássia Victória',
-  description: 'Entre em contato com o escritório Cássia Victória para seu próximo projeto.',
+  description: 'Entre em contato com Cássia Victória para o seu próximo projeto de arquitetura.',
 };
 
 export default function ContatoPage() {
@@ -24,9 +24,9 @@ export default function ContatoPage() {
                 Vamos conversar sobre seu{' '}
                 <span className="text-luminex-red">projeto</span>
               </h1>
-              <p className="text-text-grey text-lg leading-relaxed animate-fade-in-up-delay-2">
-                Estamos prontos para transformar sua visão em realidade.
-                Entre em contato conosco e vamos iniciar essa jornada juntos.
+              <p className="text-[#555555] text-lg leading-relaxed animate-fade-in-up-delay-2">
+                Estou pronta para transformar sua visão em realidade.
+                Entre em contato e vamos iniciar essa jornada juntos.
               </p>
             </div>
 

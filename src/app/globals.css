@@ -2,8 +2,8 @@
 
 @theme inline {
   /* ─── Colors ───────────────────────────────── */
-  --color-luminex-red: #E06565;
-  --color-accent-red: #FAC3C3;
+  --color-luminex-red: #810100;
+  --color-accent-red: #f3d0d0;
   --color-title-black: #212121;
   --color-text-grey: #999999;
   --color-background: #FFFFFF;
@@ -222,4 +222,13 @@ h3 {
 
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* ─── Scrollbar Hide Utility ───────────────────── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

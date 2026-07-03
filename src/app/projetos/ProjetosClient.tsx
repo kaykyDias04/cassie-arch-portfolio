@@ -11,8 +11,23 @@ interface ProjetosClientProps {
   projects: Project[];
 }
 
+function getSemester(dateStr: string): string {
+  const date = new Date(dateStr);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const half = month <= 6 ? 1 : 2;
+  return `${year}.${half}`;
+}
+
 export default function ProjetosClient({ projects }: ProjetosClientProps) {
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>('Todos');
+  const [activeSemester, setActiveSemester] = useState('Todos os períodos');
+
+  const availableSemesters = useMemo(() => {
+    const seen = new Set<string>();
+    projects.forEach((p) => seen.add(getSemester(p.date)));
+    return Array.from(seen).sort();
+  }, [projects]);
 
   const filteredProjects = useMemo(() => {
     let filtered = [...projects];
@@ -21,10 +36,14 @@ export default function ProjetosClient({ projects }: ProjetosClientProps) {
       filtered = filtered.filter((p) => p.category === activeCategory);
     }
 
+    if (activeSemester !== 'Todos os períodos') {
+      filtered = filtered.filter((p) => getSemester(p.date) === activeSemester);
+    }
+
     filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
     return filtered;
-  }, [projects, activeCategory]);
+  }, [projects, activeCategory, activeSemester]);
 
   return (
     <>
@@ -44,6 +63,9 @@ export default function ProjetosClient({ projects }: ProjetosClientProps) {
               <ProjectFilters
                 activeCategory={activeCategory}
                 onCategoryChange={setActiveCategory}
+                activeSemester={activeSemester}
+                onSemesterChange={setActiveSemester}
+                availableSemesters={availableSemesters}
               />
             </div>
 
@@ -56,7 +78,7 @@ export default function ProjetosClient({ projects }: ProjetosClientProps) {
             ) : (
               <div className="text-center py-20">
                 <p className="text-text-grey text-lg">
-                  Nenhum projeto encontrado nesta categoria.
+                  Nenhum projeto encontrado neste filtro.
                 </p>
               </div>
             )}

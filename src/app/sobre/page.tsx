@@ -6,7 +6,7 @@ import { getAboutData } from '@/lib/data';
 export const metadata: Metadata = {
   title: 'Sobre Mim | Cássia Victória',
   description:
-    'Conheça a história e a equipe do escritório Cássia Victória, referência em projetos contemporâneos.',
+    'Conheça a história e a trajetória de Cássia Victória, estudante de arquitetura e urbanismo.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -19,32 +19,39 @@ export default async function SobrePage() {
       <Header />
 
       <main className="flex-1 pt-20">
-        <section className="min-h-[calc(100vh-80px)]">
-          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[calc(100vh-80px)]">
-            <div className="relative h-[50vh] lg:h-auto">
-              <img
-                src={aboutData.photo}
-                alt="Cassie Moretti - Arquiteta"
-                className="w-full h-full object-cover"
-              />
-            </div>
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
 
-            <div className="flex items-center px-8 lg:px-16 py-16 lg:py-24">
-              <div className="max-w-lg">
-                <h1 className="mb-10 animate-fade-in-up" style={{ fontStyle: 'italic', fontWeight: 400 }}>
+              <div className="w-full lg:w-[42%] shrink-0">
+                <div className="relative overflow-hidden rounded-2xl aspect-[3/4] bg-surface">
+                  <img
+                    src={aboutData.photo}
+                    alt="Cássia Victória - Arquitetura"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="flex-1 py-4 lg:py-8">
+                <p className="text-text-grey text-sm tracking-[0.2em] uppercase mb-4 animate-fade-in-up">
                   Sobre Mim
+                </p>
+                <h1 className="mb-8 animate-fade-in-up" style={{ fontStyle: 'italic', fontWeight: 400 }}>
+                  Cássia Victória
                 </h1>
 
                 <div className="space-y-5 animate-fade-in-up-delay-1">
                   {aboutData.paragraphs.map((paragraph, index) => (
                     <p
                       key={index}
-                      className="text-[17px] leading-[28px] text-title-black/80"
+                      className="text-[17px] leading-[28px] text-[#444444]"
                       dangerouslySetInnerHTML={{ __html: paragraph }}
                     />
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         </section>
