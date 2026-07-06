@@ -22,9 +22,11 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-surface px-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-10">
-          <div className="w-14 h-14 border-2 border-title-black flex items-center justify-center rounded-sm mx-auto mb-4">
-            <span className="text-title-black font-semibold text-2xl">C</span>
-          </div>
+          <img
+            src="/Cassie-logo.svg"
+            alt="Cássia Victória Logo"
+            className="w-14 h-14 mx-auto mb-4 object-contain"
+          />
           <h2 className="text-title-black text-xl font-medium">Painel Admin</h2>
           <p className="text-text-grey text-sm mt-1">Acesso restrito</p>
         </div>
