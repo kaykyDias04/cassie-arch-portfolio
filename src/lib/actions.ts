@@ -6,10 +6,14 @@ import { revalidatePath } from 'next/cache';
 import { addProject, updateProject, deleteProject, updateAboutData } from './data';
 import { AboutData } from './types';
 
+import { SignJWT, jwtVerify } from 'jose';
+
 const ADMIN_USER = process.env.ADMIN_USER || 'admin';
 const ADMIN_PASS = process.env.ADMIN_PASS || 'password123';
 const SESSION_COOKIE = 'admin-session';
-const SESSION_VALUE = 'authenticated';
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'fallback-dev-secret-change-in-production'
+);
 
 
 export async function loginAction(formData: FormData) {
@@ -17,12 +21,19 @@ export async function loginAction(formData: FormData) {
   const password = formData.get('password') as string;
 
   if (username === ADMIN_USER && password === ADMIN_PASS) {
+    const token = await new SignJWT({ sub: username })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('24h')
+      .sign(JWT_SECRET);
+
     const cookieStore = await cookies();
-    cookieStore.set(SESSION_COOKIE, SESSION_VALUE, {
+    cookieStore.set(SESSION_COOKIE, token, {
       httpOnly: true,
       path: '/',
       maxAge: 60 * 60 * 24,
       sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
     });
     redirect('/admin/dashboard');
   }
@@ -39,7 +50,15 @@ export async function logoutAction() {
 export async function isAuthenticated(): Promise<boolean> {
   const cookieStore = await cookies();
   const session = cookieStore.get(SESSION_COOKIE);
-  return session?.value === SESSION_VALUE;
+
+  if (!session?.value) return false;
+
+  try {
+    await jwtVerify(session.value, JWT_SECRET);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 
