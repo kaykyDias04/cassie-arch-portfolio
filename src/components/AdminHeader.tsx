@@ -22,11 +22,6 @@ export default function AdminHeader() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="h-14 flex items-center justify-between">
           <Link href="/admin/dashboard" className="flex items-center gap-2.5">
-            <img
-              src="/Cassie-logo.svg"
-              alt="Cássia Victória Logo"
-              className="w-8 h-8 object-contain"
-            />
             <div className="flex items-center gap-2">
               <span className="text-white font-semibold text-[13px] tracking-wide uppercase">
                 Cassie

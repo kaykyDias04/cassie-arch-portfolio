@@ -8,20 +8,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <img
-                src="/Cassie-logo.svg"
-                alt="Cássia Victória Logo"
-                className="w-10 h-10 object-contain"
-              />
-              <div className="flex flex-col leading-tight">
-                <span className="text-white font-semibold text-[16px] tracking-wide uppercase">
-                  Cássia
-                </span>
-                <span className="text-text-grey text-[10px] tracking-[0.2em] uppercase">
-                  Victória
-                </span>
-              </div>
+            <div className="flex flex-col leading-tight mb-4">
+              <span className="text-white font-semibold text-[16px] tracking-wide uppercase">
+                Cássia
+              </span>
+              <span className="text-text-grey text-[10px] tracking-[0.2em] uppercase">
+                Victória
+              </span>
             </div>
             <p className="text-text-grey text-sm leading-relaxed max-w-xs">
               Ideias em construção. Um olhar em formação buscando traduzir conceitos em uma arquitetura contemporânea e com propósito.
