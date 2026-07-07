@@ -151,7 +151,6 @@ export default function EditProjectClient({ project }: EditProjectClientProps) {
                         onChange={handleImageChange}
                       />
                     </label>
-                    <p className="pl-1">ou arraste e solte</p>
                   </div>
                   <p className="text-xs text-text-grey">PNG, JPG, GIF até 10MB (Deixe em branco para manter a imagem atual)</p>
                 </div>

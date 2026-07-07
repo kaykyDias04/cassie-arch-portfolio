@@ -94,7 +94,6 @@ export default function EditAboutClient({ initialData }: { initialData: AboutDat
                       onChange={handleImageChange}
                     />
                   </label>
-                  <p className="pl-1">ou arraste</p>
                 </div>
                 <p className="text-xs text-text-grey">PNG, JPG até 5MB (Deixe em branco para manter atual)</p>
               </div>
