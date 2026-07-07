@@ -32,7 +32,9 @@ export default function ContatoPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <a
-                href="mailto:contato@cassiearquitetura.com"
+                href="https://mail.google.com/mail/?view=cm&to=contato@cassiearquitetura.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group bg-surface rounded-2xl p-8 text-center hover:bg-accent-red/30 transition-all duration-300 animate-fade-in-up"
               >
                 <div className="w-14 h-14 bg-accent-red rounded-full flex items-center justify-center mx-auto mb-5 group-hover:bg-luminex-red group-hover:text-white transition-all duration-300">
