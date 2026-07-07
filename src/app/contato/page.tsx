@@ -45,14 +45,16 @@ export default function ContatoPage() {
               </a>
 
               <a
-                href="tel:+5511999999999"
+                href="https://wa.me/5581991968245"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group bg-surface rounded-2xl p-8 text-center hover:bg-accent-red/30 transition-all duration-300 animate-fade-in-up-delay-1"
               >
                 <div className="w-14 h-14 bg-accent-red rounded-full flex items-center justify-center mx-auto mb-5 group-hover:bg-luminex-red group-hover:text-white transition-all duration-300">
                   <Phone size={22} className="text-luminex-red group-hover:text-white transition-colors" />
                 </div>
                 <h3 className="text-title-black font-semibold text-base mb-2">Telefone</h3>
-                <p className="text-text-grey text-sm">+55 (11) 99999-9999</p>
+                <p className="text-text-grey text-sm">+55 (81) 99196-8245</p>
               </a>
 
               <div className="group bg-surface rounded-2xl p-8 text-center hover:bg-accent-red/30 transition-all duration-300 animate-fade-in-up-delay-2">
