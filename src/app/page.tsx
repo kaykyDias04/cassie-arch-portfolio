@@ -44,7 +44,7 @@ export default async function HomePage() {
                   href="/contato"
                   className="inline-flex items-center gap-2 border border-title-black text-title-black px-8 py-3.5 rounded-full text-sm tracking-[0.1em] uppercase font-medium hover:bg-luminex-red hover:text-white transition-colors duration-300"
                 >
-                  Fale Conosco
+                  Fale Comigo
                 </Link>
               </div>
             </div>
