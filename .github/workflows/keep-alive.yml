@@ -1,0 +1,15 @@
+name: Supabase Keep-Alive Cron
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-db:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Keep-Alive Endpoint
+        run: |
+          curl -s -X GET "https://${{ secrets.SITE_URL || 'cassie-arch-portfolio.vercel.app' }}/api/keep-alive" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}"
