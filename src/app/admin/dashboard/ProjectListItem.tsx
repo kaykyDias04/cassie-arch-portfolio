@@ -64,12 +64,12 @@ export default function ProjectListItem({ project }: { project: Project }) {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="text-text-grey hover:text-title-black transition-colors"
+                  className="text-text-grey hover:text-title-black transition-colors cursor-pointer"
                 >
                   <X size={20} />
                 </button>
               </div>
-              
+
               <p className="text-text-grey mb-8">
                 Tem certeza que deseja excluir o projeto <strong className="text-title-black">{project.title}</strong>? Esta ação não pode ser desfeita.
               </p>
