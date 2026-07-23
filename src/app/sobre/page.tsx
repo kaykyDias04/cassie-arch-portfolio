@@ -20,7 +20,7 @@ export default async function SobrePage() {
 
       <main className="flex-1 pt-20">
         <section className="py-20">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-[1400px] mx-auto px-6">
             <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
 
               <div className="w-full lg:w-[42%] shrink-0">

@@ -15,7 +15,7 @@ export default function ContatoPage() {
 
       <main className="flex-1 pt-20">
         <section className="py-20">
-          <div className="max-w-7xl mx-auto px-6">
+          <div className="max-w-[1400px] mx-auto px-6">
             <div className="max-w-3xl mx-auto text-center mb-16">
               <p className="text-text-grey text-sm tracking-[0.2em] uppercase mb-3 animate-fade-in-up">
                 Contato

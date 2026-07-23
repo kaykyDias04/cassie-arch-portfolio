@@ -5,14 +5,14 @@ export default function Footer() {
 
   return (
     <footer className="bg-title-black text-white">
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-[1400px] mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div>
-            <div className="flex flex-col leading-tight mb-4">
-              <span className="text-white font-semibold text-[16px] tracking-wide uppercase">
+            <div className="flex items-baseline gap-1.5 mb-4">
+              <span className="text-white font-semibold text-[14px] tracking-wide uppercase">
                 Cássia
               </span>
-              <span className="text-text-grey text-[10px] tracking-[0.2em] uppercase">
+              <span className="text-text-grey font-medium text-[14px] tracking-[0.15em] uppercase">
                 Victória
               </span>
             </div>

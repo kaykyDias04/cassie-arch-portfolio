@@ -45,7 +45,7 @@ export default async function ProjectDetailPage({
       <main className="flex-1 pt-20">
         <div className="max-w-4xl mx-auto px-6 pt-10">
           <Link
-            href="/projetos"
+            href="/#projetos"
             className="inline-flex items-center gap-2 text-text-grey text-sm tracking-[0.1em] uppercase font-medium hover:text-title-black transition-colors duration-300"
           >
             <ArrowLeft size={16} />
@@ -90,7 +90,7 @@ export default async function ProjectDetailPage({
         <section className="max-w-4xl mx-auto px-6 pb-20">
           <div className="border-t border-border-light pt-12 text-center">
             <Link
-              href="/projetos"
+              href="/#projetos"
               className="inline-flex items-center gap-2 bg-title-black text-white px-8 py-3.5 rounded-full text-sm tracking-[0.1em] uppercase font-medium hover:bg-luminex-red transition-colors duration-300"
             >
               Ver mais projetos
