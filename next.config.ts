@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['pg'], // just in case for prisma/pg
+  serverActions: {
+    bodySizeLimit: '10mb',
+  },
   images: {
     remotePatterns: [
       {

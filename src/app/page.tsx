@@ -58,7 +58,7 @@ export default async function HomePage() {
               </div>
 
               <div className="hidden lg:flex items-center justify-end animate-fade-in-up-delay-2">
-                <div className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden bg-surface border-2 border-dashed border-border-light flex flex-col items-center justify-center gap-3 text-text-grey">
+                <div className="relative w-full aspect-[4/5] rounded-2xl overflow-hidden bg-surface border-2 border-dashed border-border-light flex flex-col items-center justify-center gap-3 text-text-grey">
                   <img
                     src="u21095pig24ms_600.webp"
                     alt="Foto de perfil de Cassia Oliveira"

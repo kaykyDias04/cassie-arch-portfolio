@@ -87,10 +87,16 @@ export async function createProjectAction(formData: FormData) {
     return { error: 'A imagem de capa é obrigatória.' };
   }
 
-  await addProject({ title, date, category, coverImage, content });
+  try {
+    await addProject({ title, date, category, coverImage, content });
 
-  revalidatePath('/projetos');
-  revalidatePath('/');
+    revalidatePath('/projetos');
+    revalidatePath('/');
+  } catch (error: any) {
+    console.error('Failed to create project:', error);
+    return { error: 'Ocorreu um erro interno: ' + (error.message || 'Erro desconhecido.') };
+  }
+
   redirect('/admin/dashboard');
 }
 
