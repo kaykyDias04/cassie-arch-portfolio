@@ -76,7 +76,7 @@ export default function Header() {
             <span className="text-title-black font-semibold text-[14px] tracking-wide uppercase">
               Cássia
             </span>
-            <span className="text-text-grey font-medium text-[14px] tracking-[0.15em] uppercase">
+            <span className="text-title-black font-semibold text-[14px] tracking-wide uppercase">
               Victória
             </span>
           </div>

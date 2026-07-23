@@ -32,7 +32,7 @@ export default function ContatoPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <a
-                href="https://mail.google.com/mail/?view=cm&to=contato@cassiearquitetura.com"
+                href="https://mail.google.com/mail/?view=cm&to=cassiavsmr012@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group bg-surface rounded-2xl p-8 text-center hover:bg-accent-red/30 transition-all duration-300 animate-fade-in-up"
@@ -41,7 +41,7 @@ export default function ContatoPage() {
                   <Mail size={22} className="text-luminex-red group-hover:text-white transition-colors" />
                 </div>
                 <h3 className="text-title-black font-semibold text-base mb-2">Email</h3>
-                <p className="text-text-grey text-sm">contato@cassiearquitetura.com</p>
+                <p className="text-text-grey text-sm">cassiavsmr012@gmail.com</p>
               </a>
 
               <a

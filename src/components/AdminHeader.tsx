@@ -24,7 +24,7 @@ export default function AdminHeader() {
           <Link href="/admin/dashboard" className="flex items-center gap-2.5">
             <div className="flex items-center gap-2">
               <span className="text-white font-semibold text-[13px] tracking-wide uppercase">
-                Cassie
+                Cássia
               </span>
               <span className="text-white/40 text-[11px]">•</span>
               <span className="text-luminex-red text-[11px] tracking-[0.15em] uppercase font-medium">
@@ -65,11 +65,10 @@ export default function AdminHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`inline-flex items-center gap-2 px-4 py-2.5 text-xs tracking-[0.1em] uppercase font-medium rounded-t-lg transition-all duration-200 ${
-                  isActive
+                className={`inline-flex items-center gap-2 px-4 py-2.5 text-xs tracking-[0.1em] uppercase font-medium rounded-t-lg transition-all duration-200 ${isActive
                     ? 'bg-surface text-title-black'
                     : 'text-white/50 hover:text-white hover:bg-white/5'
-                }`}
+                  }`}
               >
                 <item.icon size={14} />
                 {item.label}

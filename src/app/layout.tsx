@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     "Escritório de arquitetura especializado em projetos residenciais, comerciais e urbanismo. Transformamos espaços com design contemporâneo e funcional.",
   keywords: ["arquitetura", "design", "interiores", "urbanismo", "portfólio"],
   icons: {
-    icon: "/Cassie-logo.svg",
+    icon: "/Cássia-logo.svg",
   },
   openGraph: {
     title: "Cássia Victória | Portfólio",

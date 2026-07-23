@@ -30,7 +30,7 @@ export default function Footer() {
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 text-text-grey text-sm md:justify-end">
                 <Mail size={14} />
-                <span>contato@cassiearquitetura.com</span>
+                <span>cassiavsmr012@gmail.com</span>
               </div>
               <div className="flex items-center gap-2 text-text-grey text-sm md:justify-end">
                 <MapPin size={14} />

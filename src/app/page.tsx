@@ -24,9 +24,9 @@ export default async function HomePage() {
 
       <main className="flex-1 pt-20">
         {/* ─── Hero ──────────────────────────────────── */}
-        <section id="home" className="relative min-h-[calc(100vh-5rem)] flex items-center scroll-mt-20" aria-labelledby="hero-heading">
-          <div className="max-w-[1400px] mx-auto px-6 py-14 w-full">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section id="home" className="relative min-h-[calc(100vh-5rem)] flex items-start pt-10 scroll-mt-20" aria-labelledby="hero-heading">
+          <div className="max-w-[1400px] mx-auto px-6 w-full">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
               <div>
                 <p className="text-text-grey text-sm tracking-[0.2em] uppercase mb-6 animate-fade-in-up">
