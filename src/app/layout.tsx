@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+
+const belgianoSerif = localFont({
+  src: "../../public/belgiano_serif/Belgiano Serif 2.ttf",
+  variable: "--font-belgiano-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Cássia Victória | Portfólio",
@@ -22,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="h-full antialiased">
+    <html lang="pt-BR" className={`h-full antialiased ${belgianoSerif.variable}`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
