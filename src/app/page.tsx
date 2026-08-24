@@ -53,8 +53,8 @@ export default async function HomePage() {
                 Transformo espaços em experiências
               </h1>
               <p className="hero-subtitle animate-fade-in-up-delay-2">
-                Crio projetos de arquitetura, urbanismo e interiores com design
-                contemporâneo, funcionalidade e sensibilidade ao contexto.
+                sobcsjsjenskssobcsjsjenskssobcsjsjenskssobcsjsjenskssobc
+                sobcsjsjenskssobcsjsjenskssobcsjsjenskssobcsjsjensks.
               </p>
               <div className="hero-actions animate-fade-in-up-delay-3">
                 <a href="#projetos" className="hero-btn-primary">
