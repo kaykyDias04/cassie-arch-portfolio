@@ -2,8 +2,6 @@ import { getProjects } from '@/lib/data';
 import ProjetosClient from './ProjetosClient';
 import type { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
-
 export const metadata: Metadata = {
   title: 'Projetos | Cássia Victória',
   description: 'Conheça Meus projetos de arquitetura, urbanismo e design de interiores.',

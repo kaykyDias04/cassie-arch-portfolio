@@ -1,161 +1,100 @@
 # Cássia Arch Portfolio
 
-## Descrição do Projeto
+Portfólio de arquitetura contemporâneo de **Cássia Victória**, construído com **Next.js 16 (App Router)**, **TypeScript**, **TailwindCSS 4** e integrado ao **Sanity.io** como Headless CMS.
 
-Este é um portfólio de arquitetura moderno e dinâmico, construído com Next.js, React e TypeScript. Ele permite a exibição de projetos de arquitetura, urbanismo e interiores, além de uma seção 'Sobre' personalizável. O projeto inclui um painel administrativo robusto para gerenciamento de conteúdo, onde é possível criar, editar e excluir projetos, bem como atualizar as informações da página 'Sobre'. O armazenamento de dados é feito através de um banco de dados PostgreSQL, gerenciado pelo Prisma ORM, e a infraestrutura de desenvolvimento pode ser facilmente orquestrada com Docker.
+---
 
-## Tecnologias Utilizadas
+## 🏗️ Arquitetura e Tecnologias
 
-- **Framework:** Next.js 16.2.9 (App Router)
-
+- **Framework:** Next.js 16.2.9 (App Router, Turbopack, ISR com On-Demand Revalidation)
+- **CMS:** [Sanity.io](https://sanity.io) v3/v6 integrado via `next-sanity` em `/admin`
 - **Linguagem:** TypeScript 5
-
-- **Interface:** React 19.2.4
-
 - **Estilização:** TailwindCSS 4
+- **Rich Text:** Portable Text nativo com renderizadores customizados (`@portabletext/react`)
+- **Pipeline de Imagens:** Sanity CDN com corte focal (Hotspot/Crop) e entrega automática em WebP/AVIF
+- **Ícones:** Lucide React
 
-- **ORM:** Prisma 7.8.0
+---
 
-- **Banco de Dados:** PostgreSQL 15 (via Docker)
+## ✨ Destaques da Solução com CMS
 
-- **Editor de Texto Rico:** TipTap
+1. **Sanity Studio Embutido (`/admin`):**
+   - O painel administrativo completo roda dentro do próprio Next.js no caminho `/admin`.
+   - Autenticação segura gerenciada pelo Sanity (Google, GitHub ou e-mail/senha), sem necessidade de banco de dados para login.
+   - Suporte nativo ao português brasileiro (`@sanity/locale-pt-br`).
 
-- **Autenticação:** Baseada em cookies (para o painel administrativo)
+2. **Asset Pipeline & Hotspot:**
+   - Uploads de imagens em alta resolução vão direto para o CDN global do Sanity, sem limite de payload de servidor.
+   - Recorte com ponto focal (hotspot) garantindo enquadramento perfeito em qualquer dispositivo.
 
-- **Outros:** `lucide-react`, `dotenv`
+3. **Slugs Imutáveis e SEO:**
+   - Slugs gerados automaticamente a partir do título com validação de unicidade, prevenindo URLs quebradas e erros 404.
 
-## Funcionalidades
+4. **Cache Ultra-Rápido & Atualização Instantânea (ISR):**
+   - As páginas públicas são servidas estaticamente em milissegundos.
+   - Webhook `/api/revalidate` revalida sob demanda o cache via `revalidateTag` assim que um documento é publicado no Studio.
 
-### Área Pública
+---
 
-- **Listagem de Projetos:** Exibe projetos categorizados (Arquitetura, Urbanismo, Interiores) com filtros.
+## 🚀 Como Executar Localmente
 
-- **Páginas de Detalhe de Projeto:** Cada projeto possui uma página dedicada com informações detalhadas, imagem de capa e conteúdo rico.
-
-- **Página 'Sobre':** Seção personalizável com foto e múltiplos parágrafos de texto.
-
-- **Página de Contato:** Informações de contato da empresa.
-
-### Painel Administrativo
-
-- **Autenticação:** Login seguro com credenciais de administrador.
-
-- **Gerenciamento de Projetos:** CRUD (Criar, Ler, Atualizar, Excluir) completo para projetos, incluindo upload de imagem de capa (armazenada em Base64).
-
-- **Edição da Página 'Sobre':** Atualização da foto e do conteúdo textual da seção 'Sobre'.
-
-- **Editor de Texto Rico:** Utilização do TipTap para formatar o conteúdo dos projetos e da página 'Sobre'.
-
-## Configuração e Instalação
-
-Para configurar e rodar o projeto localmente, siga os passos abaixo:
-
-### Pré-requisitos
-
-Certifique-se de ter as seguintes ferramentas instaladas:
-
-- Node.js (versão 18 ou superior)
-
-- npm, yarn ou pnpm
-
-- Docker e Docker Compose
-
-- Git
-
-### 1. Clonar o Repositório
+### 1. Clonar o Repositório e Instalar Dependências
 
 ```bash
 git clone https://github.com/kaykyDias04/cassie-arch-portfolio.git
 cd cassie-arch-portfolio
+npm install
 ```
 
 ### 2. Configurar Variáveis de Ambiente
 
-Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-
-```
-DATABASE_URL="postgresql://admin:password123@localhost:5432/cassie_portfolio?schema=public"
-```
-
-Esta URL de banco de dados corresponde à configuração padrão do `docker-compose.yml`.
-
-### 3. Iniciar o Banco de Dados PostgreSQL com Docker
+Copie o arquivo `.env.example` para `.env`:
 
 ```bash
-docker-compose up -d
+cp .env.example .env
 ```
 
-Este comando iniciará um contêiner PostgreSQL e criará um volume para persistência dos dados.
+Preencha as variáveis com as credenciais do seu projeto Sanity:
 
-### 4. Instalar Dependências
+```env
+NEXT_PUBLIC_SANITY_PROJECT_ID="seu_project_id"
+NEXT_PUBLIC_SANITY_DATASET="production"
+NEXT_PUBLIC_SANITY_API_VERSION="2026-10-15"
+SANITY_REVALIDATE_SECRET="sua_chave_secreta_revalidacao"
+SANITY_API_WRITE_TOKEN="seu_token_editor_sanity"
+```
+
+### 3. Migrar Dados Iniciais (Opcional)
+
+Se tiver dados em `data/projects.json` e `data/about.json`, execute o script de migração para populá-los no Sanity:
 
 ```bash
-pnpm install
-# ou npm install
-# ou yarn install
+npm run migrate:sanity
 ```
 
-### 5. Gerar o Cliente Prisma e Rodar Migrações
+### 4. Iniciar Servidor de Desenvolvimento
 
 ```bash
-pnpm prisma generate
-pnpm prisma db push
+npm run dev
 ```
 
-O comando `db push` aplicará o schema do Prisma ao seu banco de dados PostgreSQL.
+- Site público: [http://localhost:3000](http://localhost:3000)
+- Sanity Studio (Admin): [http://localhost:3000/admin](http://localhost:3000/admin)
 
-### 6. Popular o Banco de Dados (Opcional )
+---
 
-Para popular o banco de dados com dados iniciais de exemplo (projetos e informações 'Sobre'), execute o script de migração:
+## 📦 Scripts Disponíveis
 
-```bash
-pnpm ts-node migrate-data.ts
-```
+| Comando | Descrição |
+| :--- | :--- |
+| `npm run dev` | Inicia o servidor de desenvolvimento Next.js com Turbopack |
+| `npm run build` | Compila o aplicativo para produção e valida tipagens |
+| `npm run start` | Inicia o servidor Next.js compilado |
+| `npm run lint` | Executa o linter ESLint |
+| `npm run migrate:sanity` | Importa os dados de `data/*.json` para o Sanity |
 
-Este script lerá os arquivos `data/about.json` e `data/projects.json` e os inserirá no banco de dados, caso ainda não existam.
+---
 
-## Uso
+## 🌐 Deploy em Produção
 
-### Iniciar o Servidor de Desenvolvimento
-
-```bash
-pnpm dev
-# ou npm run dev
-# ou yarn dev
-```
-
-O aplicativo estará disponível em [http://localhost:3000](http://localhost:3000).
-
-### Acessar o Painel Administrativo
-
-Navegue para [http://localhost:3000/admin](http://localhost:3000/admin).
-
-**Credenciais Padrão:**
-
-- **Usuário:** `admin`
-
-- **Senha:** `password123`
-
-**Atenção:** Estas credenciais são hardcoded em `src/lib/actions.ts` e devem ser alteradas em um ambiente de produção para garantir a segurança.
-
-## Scripts Disponíveis
-
-No diretório do projeto, você pode executar:
-
-- `pnpm dev`: Inicia o aplicativo em modo de desenvolvimento.
-
-- `pnpm build`: Constrói o aplicativo para produção.
-
-- `pnpm start`: Inicia o servidor de produção.
-
-- `pnpm lint`: Executa o linter para identificar problemas de código.
-
-- `pnpm prisma generate`: Gera o cliente Prisma.
-
-- `pnpm prisma db push`: Sincroniza o schema do Prisma com o banco de dados.
-
-- `pnpm ts-node migrate-data.ts`: Popula o banco de dados com dados iniciais.
-
-## Deploy
-
-Este projeto Next.js pode ser facilmente implantado na [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme), dos criadores do Next.js. Para mais detalhes, consulte a [documentação de deploy do Next.js](https://nextjs.org/docs/app/building-your-application/deploying).
+Consulte o guia detalhado em [cms_deploy.md](./cms_deploy.md) para o passo a passo completo de implantação na Vercel e configuração do Sanity.io.

@@ -19,6 +19,16 @@ html {
   scroll-behavior: smooth;
 }
 
+::selection {
+  background-color: var(--color-luminex-red);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-luminex-red);
+  outline-offset: 2px;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-title-black);
@@ -117,71 +127,33 @@ h3 {
   margin-bottom: 1.25rem;
 }
 
+.prose-project ul {
+  list-style: disc;
+}
+
+.prose-project ol {
+  list-style: decimal;
+}
+
 .prose-project li {
   margin-bottom: 0.5rem;
   line-height: 28px;
 }
 
-/* ─── TipTap Editor Styles ─────────────────────── */
-.tiptap {
-  outline: none;
-  min-height: 400px;
-  padding: 1.5rem;
+.prose-project figure {
+  margin: 2rem 0;
 }
 
-.tiptap p {
-  margin-bottom: 0.75rem;
-  font-size: 16px;
-  line-height: 24px;
+.prose-project figure img {
+  margin: 0;
 }
 
-.tiptap h1 {
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
-
-.tiptap h2 {
-  font-size: 24px;
-  line-height: 32px;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-
-.tiptap h3 {
-  font-size: 20px;
-  line-height: 28px;
-  font-weight: 500;
-  margin-bottom: 0.75rem;
-}
-
-.tiptap img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 1rem 0;
-}
-
-.tiptap blockquote {
-  border-left: 3px solid var(--color-luminex-red);
-  padding-left: 1rem;
-  margin: 1rem 0;
+.prose-project figcaption {
+  margin-top: 0.75rem;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
   color: var(--color-text-grey);
-}
-
-.tiptap ul,
-.tiptap ol {
-  padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.tiptap p.is-editor-empty:first-child::before {
-  content: attr(data-placeholder);
-  float: left;
-  color: var(--color-text-grey);
-  pointer-events: none;
-  height: 0;
 }
 
 /* ─── Animations ───────────────────────────────── */
@@ -334,42 +306,47 @@ h3 {
 .hero-btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   background-color: var(--color-luminex-red);
   color: #ffffff;
-  padding: 0.8rem 2rem;
+  padding: 0.85rem 2.2rem;
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 500;
   border: 1px solid var(--color-luminex-red);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 4px 14px rgba(129, 1, 0, 0.25);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-btn-primary:hover {
   background-color: #ffffff;
   color: var(--color-luminex-red);
   border-color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
 }
 
 .hero-btn-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background-color: transparent;
+  gap: 0.6rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
   color: #ffffff;
-  padding: 0.8rem 2rem;
+  padding: 0.85rem 2.2rem;
   font-size: 0.75rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  transform: translateY(-2px);
 }
 
 /* Scroll indicator */
@@ -380,15 +357,34 @@ h3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   z-index: 10;
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-decoration: none;
+}
+
+.hero-scroll-indicator:hover {
+  color: #ffffff;
+  transform: translateY(3px);
+}
+
+.hero-scroll-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin-bottom: 0.25rem;
+  opacity: 0.8;
 }
 
 .hero-scroll-line {
   width: 1px;
-  height: 64px;
+  height: 52px;
   background: linear-gradient(to bottom,
-      rgba(255, 255, 255, 0.7),
+      rgba(255, 255, 255, 0.8),
       transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }

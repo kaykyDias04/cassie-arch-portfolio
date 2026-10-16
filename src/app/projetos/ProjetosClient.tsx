@@ -5,10 +5,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjectCard from '@/components/ProjectCard';
 import ProjectFilters from '@/components/ProjectFilters';
-import { Project, ProjectCategory } from '@/lib/types';
+import { ProjectSummary, ProjectCategory } from '@/lib/types';
 
 interface ProjetosClientProps {
-  projects: Project[];
+  projects: ProjectSummary[];
 }
 
 function getSemester(dateStr: string): string {

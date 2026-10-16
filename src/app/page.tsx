@@ -6,8 +6,6 @@ import ContatoSection from '@/components/ContatoSection';
 import { getProjects, getAboutData } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
 
-export const dynamic = 'force-dynamic';
-
 export default async function HomePage() {
   let projects: Awaited<ReturnType<typeof getProjects>> = [];
   let aboutData: Awaited<ReturnType<typeof getAboutData>> | null = null;
@@ -31,8 +29,8 @@ export default async function HomePage() {
         >
           {/* Background image */}
           <img
-            src="6ee5f880-14d7-4f20-830f-3a8069e4cc48.jpg"
-            alt="Interior de projeto arquitetônico"
+            src="/6ee5f880-14d7-4f20-830f-3a8069e4cc48.jpg"
+            alt="Ambiente arquitetônico com luz natural e estrutura contemporânea"
             className="hero-bg-image"
           />
 
@@ -53,8 +51,7 @@ export default async function HomePage() {
                 Transformo espaços em experiências
               </h1>
               <p className="hero-subtitle animate-fade-in-up-delay-2">
-                sobcsjsjenskssobcsjsjenskssobcsjsjenskssobcsjsjenskssobc
-                sobcsjsjenskssobcsjsjenskssobcsjsjenskssobcsjsjensks.
+                Explorando a intersecção entre forma, materialidade e luz. Projetos que traduzem conceitos sensíveis em uma arquitetura viva, funcional e integrada ao contexto urbano.
               </p>
               <div className="hero-actions animate-fade-in-up-delay-3">
                 <a href="#projetos" className="hero-btn-primary">
@@ -69,9 +66,14 @@ export default async function HomePage() {
           </div>
 
           {/* Scroll indicator */}
-          <div className="hero-scroll-indicator animate-fade-in-up-delay-3">
+          <a
+            href="#projetos"
+            className="hero-scroll-indicator animate-fade-in-up-delay-3"
+            aria-label="Rolar para a seção de projetos"
+          >
+            <span className="hero-scroll-text">Explorar</span>
             <div className="hero-scroll-line" />
-          </div>
+          </a>
         </section>
 
         {/* ─── Projetos ─────────────────────────────── */}

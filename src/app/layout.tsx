@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "Escritório de arquitetura especializado em projetos residenciais, comerciais e urbanismo. Transformamos espaços com design contemporâneo e funcional.",
   keywords: ["arquitetura", "design", "interiores", "urbanismo", "portfólio"],
   icons: {
-    icon: "/Cássia-logo.svg",
+    icon: "/Cassie-logo.svg",
   },
   openGraph: {
     title: "Cássia Victória | Portfólio",
@@ -29,7 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={`h-full antialiased ${belgianoSerif.variable}`}>
+    <html
+      lang="pt-BR"
+      data-scroll-behavior="smooth"
+      className={`h-full antialiased ${belgianoSerif.variable}`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
