@@ -29,8 +29,8 @@ export default async function HomePage() {
         >
           {/* Background image */}
           <img
-            src="/6ee5f880-14d7-4f20-830f-3a8069e4cc48.jpg"
-            alt="Ambiente arquitetônico com luz natural e estrutura contemporânea"
+            src="/hero-banner.jpg"
+            alt="Espaço urbano à beira-mar com pórtico arquitetônico ao pôr do sol"
             className="hero-bg-image"
           />
 
