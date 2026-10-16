@@ -94,9 +94,33 @@ async function uploadImageFromUrl(imageUrl: string, filename = 'image.jpg') {
   }
 }
 
+import crypto from 'crypto';
+
+function ensureKeys(item: any): any {
+  if (Array.isArray(item)) {
+    return item.map((child) => {
+      const formatted = ensureKeys(child);
+      if (typeof formatted === 'object' && formatted !== null) {
+        if (!formatted._key) {
+          formatted._key = crypto.randomBytes(6).toString('hex');
+        }
+      }
+      return formatted;
+    });
+  }
+  if (typeof item === 'object' && item !== null) {
+    const copy: any = { ...item };
+    for (const [k, v] of Object.entries(copy)) {
+      copy[k] = ensureKeys(v);
+    }
+    return copy;
+  }
+  return item;
+}
+
 async function convertHtmlToBlocks(html: string, blockType: any) {
   try {
-    return htmlToBlocks(html, blockType, {
+    const blocks = htmlToBlocks(html, blockType, {
       parseHtml: (htmlStr) => new JSDOM(htmlStr).window.document,
       rules: [
         {
@@ -104,7 +128,6 @@ async function convertHtmlToBlocks(html: string, blockType: any) {
             if ((el as HTMLElement).tagName?.toLowerCase() === 'img') {
               const src = (el as HTMLElement).getAttribute('src') || '';
               const alt = (el as HTMLElement).getAttribute('alt') || '';
-              // Devolve bloco placeholder; imagens aninhadas são tratadas se necessário
               return block({
                 _type: 'image',
                 alt,
@@ -116,16 +139,17 @@ async function convertHtmlToBlocks(html: string, blockType: any) {
         },
       ],
     });
+    return ensureKeys(blocks);
   } catch (err) {
     // Fallback: parágrafos simples
-    return [
+    return ensureKeys([
       {
         _type: 'block',
         children: [{ _type: 'span', text: html.replace(/<[^>]+>/g, '') }],
         markDefs: [],
         style: 'normal',
       },
-    ];
+    ]);
   }
 }
 
@@ -153,7 +177,7 @@ async function migrateAbout() {
   const doc = {
     _id: ABOUT_DOCUMENT_ID,
     _type: 'about',
-    bio: bioBlocks,
+    bio: ensureKeys(bioBlocks),
     areasOfFocus: [
       'Conforto Bioclimático',
       'Design Contemporâneo',
@@ -221,7 +245,7 @@ async function migrateProjects() {
       },
       date: item.date,
       category: item.category,
-      content: blocks,
+      content: ensureKeys(blocks),
       ...(coverAsset
         ? {
             coverImage: {
