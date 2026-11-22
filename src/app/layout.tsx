@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { assetPath } from "@/lib/assets";
 import "./globals.css";
 
 const belgianoSerif = localFont({
@@ -11,15 +12,17 @@ const belgianoSerif = localFont({
 export const metadata: Metadata = {
   title: "Cássia Victória | Portfólio",
   description:
-    "Escritório de arquitetura especializado em projetos residenciais, comerciais e urbanismo. Transformamos espaços com design contemporâneo e funcional.",
-  keywords: ["arquitetura", "design", "interiores", "urbanismo", "portfólio"],
+    "Portfólio de arquitetura e urbanismo de Cássia Victória — projetos residenciais, urbanos e de interiores com design contemporâneo e funcional.",
+  keywords: ["arquitetura", "design", "interiores", "urbanismo", "portfólio", "Cássia Victória"],
   icons: {
-    icon: "/Cassie-logo.svg",
+    icon: assetPath("/Cassie-logo.svg"),
   },
   openGraph: {
     title: "Cássia Victória | Portfólio",
-    description: "Transformamos espaços com design contemporâneo e funcional.",
+    description: "Transformo espaços em experiências com arquitetura contemporânea, sensível e integrada ao contexto urbano.",
     type: "website",
+    locale: "pt_BR",
+    siteName: "Cássia Victória | Portfólio",
   },
 };
 
@@ -34,7 +37,12 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`h-full antialiased ${belgianoSerif.variable}`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a href="#main-content" className="skip-to-content">
+          Pular para o conteúdo principal
+        </a>
+        {children}
+      </body>
     </html>
   );
 }

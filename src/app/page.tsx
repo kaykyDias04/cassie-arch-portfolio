@@ -1,10 +1,11 @@
+import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProjetosSection from '@/components/ProjetosSection';
 import SobreSection from '@/components/SobreSection';
 import ContatoSection from '@/components/ContatoSection';
+import { assetPath } from '@/lib/assets';
 import { getProjects, getAboutData } from '@/lib/data';
-import { ArrowRight } from 'lucide-react';
 
 export default async function HomePage() {
   let projects: Awaited<ReturnType<typeof getProjects>> = [];
@@ -20,7 +21,7 @@ export default async function HomePage() {
     <>
       <Header />
 
-      <main className="flex-1">
+      <main id="main-content" className="flex-1">
         {/* ─── Hero ──────────────────────────────────── */}
         <section
           id="home"
@@ -29,7 +30,7 @@ export default async function HomePage() {
         >
           {/* Background image */}
           <img
-            src="/hero-banner.jpg"
+            src={assetPath('/hero-banner.jpg')}
             alt="Espaço urbano à beira-mar com pórtico arquitetônico ao pôr do sol"
             className="hero-bg-image"
           />
@@ -54,9 +55,9 @@ export default async function HomePage() {
                 Explorando a intersecção entre forma, materialidade e luz. Projetos que traduzem conceitos sensíveis em uma arquitetura viva, funcional e integrada ao contexto urbano.
               </p>
               <div className="hero-actions animate-fade-in-up-delay-3">
-                <a href="#projetos" className="hero-btn-primary">
-                  Ver Projetos
-                  <ArrowRight size={16} />
+                <a href="#projetos" className="group hero-btn-primary">
+                  <span>Ver Projetos</span>
+                  <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </a>
                 <a href="#contato" className="hero-btn-secondary">
                   Fale Comigo

@@ -6,6 +6,7 @@
  *   SANITY_API_WRITE_TOKEN="seu-token-aqui" npx tsx scripts/migrate-to-sanity.ts
  */
 
+import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 
@@ -19,7 +20,6 @@ if (fs.existsSync(envPath)) {
       // Ignora erro se variáveis já estiverem definidas
     }
   }
-  // Fallback caso alguma variável ainda não tenha sido populada
   const content = fs.readFileSync(envPath, 'utf-8');
   for (const rawLine of content.split('\n')) {
     const line = rawLine.trim();
@@ -44,6 +44,35 @@ import { JSDOM } from 'jsdom';
 import { schemaTypes } from '../src/sanity/schemas';
 import { ABOUT_DOCUMENT_ID } from '../src/sanity/schemas/about';
 
+type BlockContentType = Parameters<typeof htmlToBlocks>[1];
+
+interface SchemaWithFields {
+  name: string;
+  fields?: Array<{ name: string; type: BlockContentType }>;
+}
+
+interface LegacyProjectJson {
+  title: string;
+  slug: string;
+  date: string;
+  category: string;
+  coverImage?: string;
+  content?: string;
+}
+
+interface LegacyAboutJson {
+  photo?: string;
+  paragraphs?: string[];
+}
+
+interface PortableBlockNode {
+  _type?: string;
+  _key?: string;
+  _tempSrc?: string;
+  asset?: { _type: string; _ref: string };
+  [key: string]: unknown;
+}
+
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production';
 const token = process.env.SANITY_API_WRITE_TOKEN;
@@ -66,14 +95,17 @@ const client = createClient({
   useCdn: false,
 });
 
-// Encontra o tipo de campo content para block-tools
-const projectSchema = schemaTypes.find((t) => t.name === 'project') as any;
-const contentField = projectSchema?.fields?.find((f: any) => f.name === 'content');
-const blockContentType = contentField?.type;
+function findBlockContentType(schemaName: string, fieldName: string): BlockContentType {
+  const schema = schemaTypes.find((t) => t.name === schemaName) as unknown as SchemaWithFields | undefined;
+  const field = schema?.fields?.find((f) => f.name === fieldName);
+  if (!field) {
+    throw new Error(`Campo "${fieldName}" não encontrado no schema "${schemaName}".`);
+  }
+  return field.type;
+}
 
-const aboutSchema = schemaTypes.find((t) => t.name === 'about') as any;
-const bioField = aboutSchema?.fields?.find((f: any) => f.name === 'bio');
-const bioContentType = bioField?.type;
+const blockContentType = findBlockContentType('project', 'content');
+const bioContentType = findBlockContentType('about', 'bio');
 
 async function uploadImageFromUrl(imageUrl: string, filename = 'image.jpg') {
   try {
@@ -83,48 +115,47 @@ async function uploadImageFromUrl(imageUrl: string, filename = 'image.jpg') {
     const arrayBuffer = await res.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    console.log(`  ⬆️  Enviando para o CDN do Sanity...`);
-    const asset = await client.assets.upload('image', buffer, {
-      filename,
-    });
-    return asset;
-  } catch (err: any) {
-    console.error(`  ⚠️  Erro no upload da imagem ${imageUrl}:`, err.message);
+    console.log('  ⬆️  Enviando para o CDN do Sanity...');
+    return await client.assets.upload('image', buffer, { filename });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(`  ⚠️  Erro no upload da imagem ${imageUrl}:`, message);
     return null;
   }
 }
 
-import crypto from 'crypto';
-
-function ensureKeys(item: any): any {
+function ensureKeys<T>(item: T): T {
   if (Array.isArray(item)) {
     return item.map((child) => {
       const formatted = ensureKeys(child);
       if (typeof formatted === 'object' && formatted !== null) {
-        if (!formatted._key) {
-          formatted._key = crypto.randomBytes(6).toString('hex');
+        const record = formatted as Record<string, unknown>;
+        if (!record._key) {
+          record._key = crypto.randomBytes(6).toString('hex');
         }
       }
       return formatted;
-    });
+    }) as unknown as T;
   }
+
   if (typeof item === 'object' && item !== null) {
-    const copy: any = { ...item };
+    const copy: Record<string, unknown> = { ...(item as Record<string, unknown>) };
     for (const [k, v] of Object.entries(copy)) {
       copy[k] = ensureKeys(v);
     }
-    return copy;
+    return copy as T;
   }
+
   return item;
 }
 
-async function convertHtmlToBlocks(html: string, blockType: any) {
+async function convertHtmlToBlocks(html: string, blockType: BlockContentType): Promise<PortableBlockNode[]> {
   try {
     const blocks = htmlToBlocks(html, blockType, {
       parseHtml: (htmlStr) => new JSDOM(htmlStr).window.document,
       rules: [
         {
-          deserialize(el, next, block) {
+          deserialize(el, _next, block) {
             if ((el as HTMLElement).tagName?.toLowerCase() === 'img') {
               const src = (el as HTMLElement).getAttribute('src') || '';
               const alt = (el as HTMLElement).getAttribute('alt') || '';
@@ -138,11 +169,11 @@ async function convertHtmlToBlocks(html: string, blockType: any) {
           },
         },
       ],
-    });
+    }) as unknown as PortableBlockNode[];
     return ensureKeys(blocks);
-  } catch (err) {
+  } catch {
     // Fallback: parágrafos simples
-    return ensureKeys([
+    return ensureKeys<PortableBlockNode[]>([
       {
         _type: 'block',
         children: [{ _type: 'span', text: html.replace(/<[^>]+>/g, '') }],
@@ -162,16 +193,14 @@ async function migrateAbout() {
   }
 
   const raw = fs.readFileSync(aboutPath, 'utf-8');
-  const aboutData = JSON.parse(raw);
+  const aboutData = JSON.parse(raw) as LegacyAboutJson;
 
-  // Upload da foto de perfil
   let photoAsset = null;
   if (aboutData.photo) {
     photoAsset = await uploadImageFromUrl(aboutData.photo, 'perfil-cassia.jpg');
   }
 
-  // Converter biografia (parágrafos HTML para Portable Text)
-  const bioHtml = (aboutData.paragraphs || []).map((p: string) => `<p>${p}</p>`).join('');
+  const bioHtml = (aboutData.paragraphs || []).map((p) => `<p>${p}</p>`).join('');
   const bioBlocks = await convertHtmlToBlocks(bioHtml, bioContentType);
 
   const doc = {
@@ -210,28 +239,25 @@ async function migrateProjects() {
   }
 
   const raw = fs.readFileSync(projectsPath, 'utf-8');
-  const projects = JSON.parse(raw);
+  const projects = JSON.parse(raw) as LegacyProjectJson[];
 
   for (const item of projects) {
     console.log(`\n  👉 Processando projeto: "${item.title}"`);
 
-    // Upload imagem de capa
     let coverAsset = null;
     if (item.coverImage) {
       coverAsset = await uploadImageFromUrl(item.coverImage, `${item.slug}-cover.jpg`);
     }
 
-    // Converter conteúdo HTML em blocos
-    const blocks: any[] = await convertHtmlToBlocks(item.content || '', blockContentType);
+    const blocks = await convertHtmlToBlocks(item.content || '', blockContentType);
 
-    // Fazer upload de imagens inline detectadas no conteúdo
-    for (const b of blocks) {
-      if (b._type === 'image' && b._tempSrc) {
-        const inlineAsset = await uploadImageFromUrl(b._tempSrc, `${item.slug}-detail.jpg`);
+    for (const block of blocks) {
+      if (block._type === 'image' && block._tempSrc) {
+        const inlineAsset = await uploadImageFromUrl(block._tempSrc, `${item.slug}-detail.jpg`);
         if (inlineAsset) {
-          b.asset = { _type: 'reference', _ref: inlineAsset._id };
+          block.asset = { _type: 'reference', _ref: inlineAsset._id };
         }
-        delete b._tempSrc;
+        delete block._tempSrc;
       }
     }
 
@@ -276,7 +302,7 @@ async function main() {
   console.log('\n🎉 Migração concluída com sucesso! Acesse /admin para conferir.');
 }
 
-main().catch((err) => {
+main().catch((err: unknown) => {
   console.error('\n❌ Erro durante a migração:', err);
   process.exit(1);
 });

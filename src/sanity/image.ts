@@ -1,4 +1,5 @@
 import { createImageUrlBuilder } from '@sanity/image-url';
+import { assetPath } from '@/lib/assets';
 import { dataset, projectId } from './env';
 import type { SanityImage } from '@/lib/types';
 
@@ -17,7 +18,7 @@ export function urlFor(image?: SanityImage | null) {
       height: () => dummy,
       fit: () => dummy,
       auto: () => dummy,
-      url: () => '/Cassie-logo.svg',
+      url: () => assetPath('/Cassie-logo.svg'),
     };
     return dummy as unknown as ReturnType<typeof builder.image>;
   }

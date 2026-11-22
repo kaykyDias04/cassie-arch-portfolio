@@ -1,38 +1,35 @@
 # Cássia Arch Portfolio
 
-Portfólio de arquitetura contemporâneo de **Cássia Victória**, construído com **Next.js 16 (App Router)**, **TypeScript**, **TailwindCSS 4** e integrado ao **Sanity.io** como Headless CMS.
+Portfólio de arquitetura contemporâneo de **Cássia Victória**, construído com **Next.js 16 (App Router + Static Export)**, **TypeScript**, **TailwindCSS 4**, integrado ao **Sanity.io** como única dependência externa de CMS/mídia e hospedado integralmente no **GitHub** (GitHub Pages + GitHub Actions).
 
 ---
 
 ## 🏗️ Arquitetura e Tecnologias
 
-- **Framework:** Next.js 16.2.9 (App Router, Turbopack, ISR com On-Demand Revalidation)
-- **CMS:** [Sanity.io](https://sanity.io) v3/v6 integrado via `next-sanity` em `/admin`
+- **Hospedagem e CI/CD:** GitHub Pages + GitHub Actions (sem Vercel ou servidores externos)
+- **Framework:** Next.js 16.2.9 (App Router, `output: 'export'` estático)
+- **CMS:** [Sanity.io](https://sanity.io) v6 integrado via `next-sanity` em `/admin`
 - **Linguagem:** TypeScript 5
 - **Estilização:** TailwindCSS 4
-- **Rich Text:** Portable Text nativo com renderizadores customizados (`@portabletext/react`)
+- **Rich Text:** Portable Text nativo com renderizadores customizados (`@portabletext/react`) e ampliação de pranchas em lightbox
 - **Pipeline de Imagens:** Sanity CDN com corte focal (Hotspot/Crop) e entrega automática em WebP/AVIF
 - **Ícones:** Lucide React
 
 ---
 
-## ✨ Destaques da Solução com CMS
+## ✨ Destaques da Solução
 
-1. **Sanity Studio Embutido (`/admin`):**
-   - O painel administrativo completo roda dentro do próprio Next.js no caminho `/admin`.
-   - Autenticação segura gerenciada pelo Sanity (Google, GitHub ou e-mail/senha), sem necessidade de banco de dados para login.
+1. **Tudo no GitHub + Sanity como único serviço externo:**
+   - O frontend público (`/`, `/projetos`, `/projetos/[slug]`, `/sobre`, `/contato`) e o **Sanity Studio embutido (`/admin`)** são compilados e servidos diretamente pelo **GitHub Pages**.
+   - A atualização de conteúdo após alterações no Sanity dispara rebuild automático no **GitHub Actions** via `repository_dispatch` (`sanity-update`), além de suporte a fallback dinâmico client-side para sub-rotas do Studio e novos projetos recém-publicados.
+
+2. **Sanity Studio Embutido (`/admin`):**
+   - Autenticação segura gerenciada pelo Sanity (Google, GitHub ou e-mail/senha), sem banco de dados próprio.
    - Suporte nativo ao português brasileiro (`@sanity/locale-pt-br`).
 
-2. **Asset Pipeline & Hotspot:**
-   - Uploads de imagens em alta resolução vão direto para o CDN global do Sanity, sem limite de payload de servidor.
-   - Recorte com ponto focal (hotspot) garantindo enquadramento perfeito em qualquer dispositivo.
-
-3. **Slugs Imutáveis e SEO:**
-   - Slugs gerados automaticamente a partir do título com validação de unicidade, prevenindo URLs quebradas e erros 404.
-
-4. **Cache Ultra-Rápido & Atualização Instantânea (ISR):**
-   - As páginas públicas são servidas estaticamente em milissegundos.
-   - Webhook `/api/revalidate` revalida sob demanda o cache via `revalidateTag` assim que um documento é publicado no Studio.
+3. **Asset Pipeline & Hotspot:**
+   - Uploads de imagens em alta resolução vão direto para o CDN global do Sanity.
+   - Recorte com ponto focal (hotspot) + visualização ampliada em Lightbox para pranchas arquitetônicas.
 
 ---
 
@@ -48,31 +45,22 @@ npm install
 
 ### 2. Configurar Variáveis de Ambiente
 
-Copie o arquivo `.env.example` para `.env`:
+Copie `.env.example` para `.env`:
 
 ```bash
 cp .env.example .env
 ```
 
-Preencha as variáveis com as credenciais do seu projeto Sanity:
+Preencha com o Project ID e dataset do Sanity:
 
 ```env
-NEXT_PUBLIC_SANITY_PROJECT_ID="seu_project_id"
+NEXT_PUBLIC_SANITY_PROJECT_ID="rg6ec0kz"
 NEXT_PUBLIC_SANITY_DATASET="production"
 NEXT_PUBLIC_SANITY_API_VERSION="2026-10-15"
-SANITY_REVALIDATE_SECRET="sua_chave_secreta_revalidacao"
-SANITY_API_WRITE_TOKEN="seu_token_editor_sanity"
+NEXT_PUBLIC_BASE_PATH=""
 ```
 
-### 3. Migrar Dados Iniciais (Opcional)
-
-Se tiver dados em `data/projects.json` e `data/about.json`, execute o script de migração para populá-los no Sanity:
-
-```bash
-npm run migrate:sanity
-```
-
-### 4. Iniciar Servidor de Desenvolvimento
+### 3. Iniciar Servidor de Desenvolvimento
 
 ```bash
 npm run dev
@@ -87,14 +75,16 @@ npm run dev
 
 | Comando | Descrição |
 | :--- | :--- |
-| `npm run dev` | Inicia o servidor de desenvolvimento Next.js com Turbopack |
-| `npm run build` | Compila o aplicativo para produção e valida tipagens |
-| `npm run start` | Inicia o servidor Next.js compilado |
+| `npm run dev` | Inicia o servidor de desenvolvimento Next.js |
+| `npm run build` | Gera a exportação estática em `out/` (páginas públicas + Studio `/admin`) |
 | `npm run lint` | Executa o linter ESLint |
-| `npm run migrate:sanity` | Importa os dados de `data/*.json` para o Sanity |
+| `npm run migrate:sanity` | Importa os dados de `data/*.json` para o Sanity (requer `SANITY_API_WRITE_TOKEN`) |
 
 ---
 
-## 🌐 Deploy em Produção
+## 🌐 CI/CD e Deploy no GitHub Pages
 
-Consulte o guia detalhado em [cms_deploy.md](./cms_deploy.md) para o passo a passo completo de implantação na Vercel e configuração do Sanity.io.
+- **CI (`.github/workflows/ci.yml`):** Em Pull Requests e branches secundárias, valida TypeScript (`tsc --noEmit`), ESLint (`npm run lint`) e build estático (`npm run build`).
+- **CD (`.github/workflows/deploy.yml`):** A cada push na `main`, disparo manual (`workflow_dispatch`) ou webhook do Sanity (`repository_dispatch: sanity-update`), valida o código, gera o build em `out/` e publica no GitHub Pages.
+
+Consulte o guia completo em [cms_deploy.md](./cms_deploy.md) para configurar CORS e o Webhook do Sanity apontando para o GitHub Actions.

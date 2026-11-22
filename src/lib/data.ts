@@ -3,12 +3,6 @@ import { client } from '@/sanity/client';
 import { isSanityConfigured } from '@/sanity/env';
 import type { AboutData, Project, ProjectSummary } from './types';
 
-// Fallback caso o webhook de revalidação não dispare: o conteúdo é
-// atualizado em no máximo 60s. Com o webhook, a atualização é imediata.
-const REVALIDATE_SECONDS = 60;
-
-// As tags coincidem com o `_type` dos documentos, permitindo que o webhook
-// faça `revalidateTag(body._type)` (ver src/app/api/revalidate/route.ts).
 type ContentTag = 'project' | 'about';
 
 async function sanityFetch<T>(query: string, tag: ContentTag, params: QueryParams = {}, fallback: T): Promise<T> {
@@ -16,9 +10,7 @@ async function sanityFetch<T>(query: string, tag: ContentTag, params: QueryParam
     return fallback;
   }
   try {
-    return await client.fetch<T>(query, params, {
-      next: { revalidate: REVALIDATE_SECONDS, tags: [tag] },
-    });
+    return await client.fetch<T>(query, params);
   } catch (error) {
     console.warn(`[Sanity] Não foi possível consultar "${tag}":`, error);
     return fallback;

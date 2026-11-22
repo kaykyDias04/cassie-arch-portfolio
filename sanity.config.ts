@@ -3,6 +3,7 @@
 import { ptBRLocale } from '@sanity/locale-pt-br';
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
+import { basePath } from './src/lib/assets';
 import { dataset, projectId } from './src/sanity/env';
 import { schemaTypes, SINGLETON_TYPES } from './src/sanity/schemas';
 import { structure } from './src/sanity/structure';
@@ -13,7 +14,7 @@ const SINGLETON_ACTIONS = new Set(['publish', 'discardChanges', 'restore']);
 export default defineConfig({
   name: 'default',
   title: 'Cássia Victória — Portfólio',
-  basePath: '/admin',
+  basePath: `${basePath}/admin`,
   projectId,
   dataset,
   plugins: [structureTool({ structure }), ptBRLocale()],

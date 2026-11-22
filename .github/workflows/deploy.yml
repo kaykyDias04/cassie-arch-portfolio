@@ -1,0 +1,103 @@
+name: CD — Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  repository_dispatch:
+    types: [sanity-update]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validar Código (Typecheck & Lint)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Verificar tipagem TypeScript
+        run: npx tsc --noEmit
+
+      - name: Executar ESLint
+        run: npm run lint
+
+  build:
+    name: Build Estático (Frontend + Studio)
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Configurar GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Gerar exportação estática Next.js + Sanity Studio
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID || 'rg6ec0kz' }}
+          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
+          NEXT_PUBLIC_SANITY_API_VERSION: ${{ vars.NEXT_PUBLIC_SANITY_API_VERSION || '2026-10-15' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: |
+          npm run build
+          touch out/.nojekyll
+
+      - name: Verificar artefatos essenciais da exportação
+        run: |
+          test -f out/index.html
+          test -f out/projetos/index.html
+          test -f out/sobre/index.html
+          test -f out/contato/index.html
+          test -f out/admin/index.html
+          test -f out/404.html
+          test -f out/.nojekyll
+
+      - name: Publicar artefato do GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    name: Publicar no GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy para GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
